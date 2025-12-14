@@ -12,7 +12,7 @@ Project - Niels Follens 2CYB(Programming in Python)
 
 --------------------
 
-Dit is een eenvoudig command line interface(CLI) applicatie geschreven in python voor het beheren van lichtkoepels (Skylux) en bijhorende interventies zoals (installatie, onderhoud, herstellingen).
+Dit is een eenvoudig command line interface(CLI) applicatie geschreven in python voor het beheren van lichtkoepels (Skylux) en bijhorende interventies zoals (installatie, onderhoud, herstellingen) en alsook het verwijderen ervan.
 
 
 
@@ -24,6 +24,8 @@ De applicatie laat toe om:
 * Interventies toe te voegen aan een koepel
 * Interventies per koepel te bekijken 
 * Interventies te exporteren naar een CSV-bestand, + als optie met automatische datum van vandaag
+* Koepels te verwijderen (met bijhorende interventie(s))
+
 
 
 
