@@ -133,6 +133,7 @@ copy .env.example .env
 
 ###### 2.Inhoud van .env
 
+notepad .env
 DB\_PATH=db/skylux.db
 
 
