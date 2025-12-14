@@ -80,8 +80,13 @@ def run_cli(db_path: str) -> None:
                 print("Geen interventies gevonden of koepel bestaat niet.")
             else:
                 print("\nID | DATUM | SOORT | OPMERKING")
-                for iid, datum, kind, note in items:
-                    print(f"{iid} | {date} | {kind} | {note}")
+                for interventie in items:
+                    print(
+                        f"{interventie.id} | "
+                        f"{interventie.date} | "
+                        f"{interventie.kind} | "
+                        f"{interventie.note}"
+                    )
         elif keuze == "5":
             bestandsnaam = vraag_input("CSV bestandsnaam (enter = default): ")
 

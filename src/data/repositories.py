@@ -1,6 +1,7 @@
 import sqlite3
 from typing import Optional, List, Tuple
-from src.domain.models import Dome
+from src.domain.models import Dome, Intervention
+
 
 
 # DOME (KOEPEL) FUNCTIES
@@ -95,7 +96,18 @@ def list_interventions_for_dome(
         """,
         (dome_id,),
     )
-    return cur.fetchall()
+    rows = cur.fetchall()
+    return [
+        Intervention(
+            id=row[0],
+            dome_code=dome_code,
+            date=row[1],
+            kind=row[2],
+            note=row[3],
+        )
+        for row in rows
+]
+
 
 def list_all_interventions(conn: sqlite3.Connection):
     """
