@@ -15,6 +15,7 @@ __pycache__/
 # gegenereerde rapporten door de gebruiker negeren 
 reports/*.csv
 
+
 .vscode/
 .idea/
 .DS_Store
