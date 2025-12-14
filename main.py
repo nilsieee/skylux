@@ -1,5 +1,6 @@
 from environs import Env
 from src.data.db import init_db
+from src.cli.app import run_cli
 
 
 def main():
@@ -7,10 +8,10 @@ def main():
     env.read_env()
 
     db_path = env.str("DB_PATH")
-    print(f"Database path: {db_path}")
-    
     init_db(db_path)
-    print("Database geinstalleerd en geinitialiseerd")
+
+    run_cli(db_path)
+
 
 if __name__ == "__main__":
     main()
