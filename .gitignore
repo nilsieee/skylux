@@ -12,6 +12,9 @@ __pycache__/
 # oefen data voor de db test toelaten in de git commit en push
 !db/skylux.db
 
+# gegenereerde rapporten door de gebruiker negeren 
+reports/*.csv
+
 .vscode/
 .idea/
 .DS_Store
