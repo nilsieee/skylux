@@ -1,3 +1,5 @@
+from src.data.repositories import list_all_interventions
+from src.services.exporter import export_interventions_to_csv
 from src.data.db import get_connection
 from src.data.repositories import (
     add_dome,
@@ -13,6 +15,7 @@ def toon_menu() -> None:
     print("2) Koepels tonen")
     print("3) Interventie toevoegen")
     print("4) Interventies tonen voor koepel")
+    print("5) Export interventies naar CSV")
     print("0) Stop")
 
 
@@ -70,16 +73,23 @@ def run_cli(db_path: str) -> None:
 
         elif keuze == "4":
             dome_code = vraag_input("Koepel code: ")
-
             with get_connection(db_path) as conn:
                 items = list_interventions_for_dome(conn, dome_code)
-
             if not items:
                 print("Geen interventies gevonden (of koepel bestaat niet).")
             else:
                 print("\nID | DATUM | SOORT | OPMERKING")
                 for iid, date, kind, note in items:
                     print(f"{iid} | {date} | {kind} | {note}")
-
+        elif keuze == "5":
+            bestandsnaam = vraag_input("CSV bestandsnaam (bv. reports/interventies.csv): ")
+            if bestandsnaam == "":
+                bestandsnaam = "reports/interventies.csv"
+            with get_connection(db_path) as conn:
+                rows = list_all_interventions(conn)
+            export_interventions_to_csv(rows, bestandsnaam)
+            print(f"Export klaar -> {bestandsnaam}")
         else:
             print("Ongeldige keuze. Probeer opnieuw.")
+
+
