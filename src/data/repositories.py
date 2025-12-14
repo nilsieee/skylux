@@ -49,7 +49,7 @@ def get_dome_id_by_code(conn: sqlite3.Connection, code: str) -> Optional[int]:
 def add_intervention(
     conn: sqlite3.Connection,
     dome_code: str,
-    date: str,
+    datum: str,
     kind: str,
     note: str = "",
 ) -> int:
@@ -68,7 +68,7 @@ def add_intervention(
         INSERT INTO interventions (dome_id, date, kind, note)
         VALUES (?, ?, ?, ?);
         """,
-        (dome_id, date, kind, note),
+        (dome_id, datum, kind, note),
     )
     conn.commit()
     return cur.lastrowid
