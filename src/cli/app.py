@@ -56,8 +56,8 @@ def run_cli(db_path: str) -> None:
                 print("Geen koepels gevonden.")
             else:
                 print("\nID | CODE | LOCATIE")
-                for dome_id, code, location in domes:
-                    print(f"{dome_id} | {code} | {location}")
+                for dome in domes:
+                    print(f"{dome.id} | {dome.code} | {dome.location}")
 
         elif keuze == "3":
             dome_code = vraag_input("Koepel code: ")

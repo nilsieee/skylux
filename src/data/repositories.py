@@ -1,5 +1,7 @@
 import sqlite3
 from typing import Optional, List, Tuple
+from src.domain.models import Dome
+
 
 # DOME (KOEPEL) FUNCTIES
 
@@ -17,14 +19,15 @@ def add_dome(conn: sqlite3.Connection, code: str, location: str) -> int:
     return cur.lastrowid
 
 
-def list_domes(conn: sqlite3.Connection) -> List[Tuple[int, str, str]]:
+def list_domes(conn: sqlite3.Connection) -> List[Dome]:
     """
     Geeft een lijst van alle koepels terug.
     Elke rij: (id, code, locatie)
     """
     cur = conn.cursor()
     cur.execute("SELECT id, code, location FROM domes ORDER BY code;")
-    return cur.fetchall()
+    rows = cur.fetchall()
+    return [Dome(id=row[0], code=row[1], location=row[2]) for row in rows]
 
 
 def get_dome_id_by_code(conn: sqlite3.Connection, code: str) -> Optional[int]:
