@@ -1,6 +1,7 @@
 from environs import Env
 from src.data.db import init_db
 
+
 def main():
     env = Env()
     env.read_env()
