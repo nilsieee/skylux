@@ -1,12 +1,13 @@
 from datetime import date
-from src.data.repositories import list_all_interventions
 from src.services.exporter import export_interventions_to_csv
 from src.data.db import get_connection
 from src.data.repositories import (
     add_dome,
     list_domes,
     add_intervention,
+    list_all_interventions,
     list_interventions_for_dome,
+    delete_dome_by_code,
 )
 
 
@@ -17,6 +18,7 @@ def toon_menu() -> None:
     print("3) Interventie toevoegen")
     print("4) Interventies tonen voor koepels")
     print("5) Export interventies naar CSV")
+    print("6) Koepel verwijderen (met bijhorende interventies)")
     print("0) Stop")
 
 
@@ -98,6 +100,17 @@ def run_cli(db_path: str) -> None:
                 rows = list_all_interventions(conn)
             export_interventions_to_csv(rows, bestandsnaam)
             print(f"Export klaar -> {bestandsnaam}")
+        elif keuze == "6":
+            code = vraag_input("Koepel code om te verwijderen (bv KPL-0001): ")
+
+            with get_connection(db_path) as conn:
+                ok = delete_dome_by_code(conn, code)
+
+            if ok:
+                print("Koepel + bijhorende interventies = weg.")
+            else:
+                print("Koepel niet gevonden.")
+
         else:
             print("Ongeldige keuze. Probeer opnieuw.")
 

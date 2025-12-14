@@ -125,3 +125,21 @@ def list_all_interventions(conn: sqlite3.Connection):
     )
     return cur.fetchall()
 
+def delete_dome_by_code(conn: sqlite3.Connection, code: str) -> bool:
+    """
+    Verwijdert een koepel op basis van de code.
+    Verwijdert ook alle interventies die bij die koepel horen.
+    """
+    dome_id = get_dome_id_by_code(conn, code)
+    if dome_id is None:
+        return False
+
+    cur = conn.cursor()
+
+    # eerst interventies weg (anders faalt delete op domes als er FK-relaties zijn)
+    cur.execute("DELETE FROM interventions WHERE dome_id = ?;", (dome_id,))
+    cur.execute("DELETE FROM domes WHERE id = ?;", (dome_id,))
+
+    conn.commit()
+    return True
+
