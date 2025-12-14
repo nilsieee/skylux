@@ -103,7 +103,7 @@ python -m venv .venv
 
 ###### 3\. Virtuele omgeving activeren
 
-.venv\\Scripts\\Activate.ps1
+.venv\Scripts\Activate.ps1 of .venv\\Scripts\\Activate.ps1
 
 
 
