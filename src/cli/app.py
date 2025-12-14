@@ -1,3 +1,4 @@
+from datetime import date
 from src.data.repositories import list_all_interventions
 from src.services.exporter import export_interventions_to_csv
 from src.data.db import get_connection
@@ -14,7 +15,7 @@ def toon_menu() -> None:
     print("1) Koepel toevoegen")
     print("2) Koepels tonen")
     print("3) Interventie toevoegen")
-    print("4) Interventies tonen voor koepel")
+    print("4) Interventies tonen voor koepels")
     print("5) Export interventies naar CSV")
     print("0) Stop")
 
@@ -33,11 +34,11 @@ def run_cli(db_path: str) -> None:
         keuze = vraag_input("Kies een optie: ")
 
         if keuze == "0":
-            print("Tot ziens!")
+            print("Tot ziens")
             break
 
         elif keuze == "1":
-            code = vraag_input("Koepel code (bv. KPL-0001): ")
+            code = vraag_input("Koepel code (bv KPL-0001): ")
             location = vraag_input("Locatie: ")
 
             with get_connection(db_path) as conn:
@@ -60,13 +61,13 @@ def run_cli(db_path: str) -> None:
 
         elif keuze == "3":
             dome_code = vraag_input("Koepel code: ")
-            date = vraag_input("Datum (YYYY-MM-DD): ")
+            datum = vraag_input("Datum (YYYY-MM-DD): ")
             kind = vraag_input("Soort (install/repair/maintenance): ")
             note = vraag_input("Opmerking (mag leeg): ")
 
             with get_connection(db_path) as conn:
                 try:
-                    new_id = add_intervention(conn, dome_code, date, kind, note)
+                    new_id = add_intervention(conn, dome_code, datum, kind, note)
                     print(f"Interventie toegevoegd met id {new_id}")
                 except Exception as ex:
                     print(f"Kon interventie niet toevoegen: {ex}")
@@ -76,15 +77,18 @@ def run_cli(db_path: str) -> None:
             with get_connection(db_path) as conn:
                 items = list_interventions_for_dome(conn, dome_code)
             if not items:
-                print("Geen interventies gevonden (of koepel bestaat niet).")
+                print("Geen interventies gevonden of koepel bestaat niet.")
             else:
                 print("\nID | DATUM | SOORT | OPMERKING")
-                for iid, date, kind, note in items:
+                for iid, datum, kind, note in items:
                     print(f"{iid} | {date} | {kind} | {note}")
         elif keuze == "5":
-            bestandsnaam = vraag_input("CSV bestandsnaam (bv. reports/interventies.csv): ")
+            bestandsnaam = vraag_input("CSV bestandsnaam (enter = default): ")
+
             if bestandsnaam == "":
-                bestandsnaam = "reports/interventies.csv"
+                vandaag = date.today().isoformat()
+                bestandsnaam = f"reports/interventies_{vandaag}.csv"
+
             with get_connection(db_path) as conn:
                 rows = list_all_interventions(conn)
             export_interventions_to_csv(rows, bestandsnaam)
